@@ -1,5 +1,5 @@
 import { Module } from "@nestjs/common";
-
+import {LabelsModule} from "./modules/labels/labels.module.js";
 import { AppConfigModule } from "./config/app-config.module.js";
 import { JobModule } from "./infrastructure/jobs/job.module.js";
 import { PrismaModule } from "./infrastructure/prisma/prisma.module.js";
@@ -19,6 +19,7 @@ import { TasksModule } from "./modules/tasks/tasks.module.js";
     CatalogModule,
     TasksModule,
     GithubModule,
+    LabelsModule,
   ],
 })
 export class AppModule {}

@@ -97,11 +97,20 @@ describe("Foundation API (e2e)", () => {
     const engagements = await agent.get("/api/v1/engagements").expect(200);
     expect(engagements.body).toHaveLength(1);
 
+// 1️⃣ استدعاء المهام والتأكد أنها ترجع مع الـ labels الخاصة بها
     const assignments = await agent.get("/api/v1/assignments").expect(200);
     expect(assignments.body).toEqual(
-      expect.arrayContaining([expect.objectContaining({ weekNumber: 1 })]),
+      expect.arrayContaining([
+        expect.objectContaining({
+          weekNumber: 1,
+          labels: expect.any(Array), // 👈 تأكيد ارجاع الـ labels
+        }),
+      ]),
     );
 
+    // 2️⃣ إضافة اختبار Endpoint الـ Labels المتاحة
+    const labels = await agent.get("/api/v1/labels").expect(200);
+    expect(Array.isArray(labels.body)).toBe(true);
     await agent.post("/api/v1/auth/logout").expect(201).expect({ ok: true });
 
     await agent.get("/api/v1/auth/me").expect(401);
